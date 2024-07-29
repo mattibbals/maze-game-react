@@ -53,7 +53,7 @@ function App() {
   }, []); */
 
   useEffect(()=>{
-    socket.current = io('http://localhost:5000', {
+    socket.current = io('//:5000', {
       withCredentials: true,
       extraHeaders: {
         "my-custom-header": "abcd"
