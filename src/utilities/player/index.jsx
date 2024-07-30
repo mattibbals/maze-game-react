@@ -6,7 +6,7 @@ export const TURNING_RIGHT = 2;
 export const TURNING_LEFT = 3;
 export const MOVING_FORWARD = 4;
 
-export const getPlayerObj = () => {
+/* export const getPlayerObj = () => {
     
     return {
         startX: 0,
@@ -20,7 +20,7 @@ export const getPlayerObj = () => {
         last_update: Date.now(),
         playerInput: {right:0,left:0,up:0,down:0}
     };
-}
+} */
 
 export const doKeyDown = (event, playerObj) => {
     let keynum;

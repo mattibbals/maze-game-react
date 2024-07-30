@@ -13,6 +13,7 @@ function App() {
   const [fooEvents, setFooEvents] = useState([]);
   const [mapFromServer, setMapFromServer] = useState(false);
   const [collectablesFromServer, setCollectablesFromServer] = useState([])
+  const [playersFromServer, setPlayersFromServer] = useState([])
   const socket = useRef(false);
 
   useEffect(() => {
@@ -74,9 +75,11 @@ function App() {
    
      socket.current.on('connect', onConnect);
      socket.current.on('disconnect', onDisconnect);
-     socket.current.on('mapFromServer', ({ map, collectables }) => {
+     socket.current.on('mapFromServer', ({ map, collectables, players }) => {
       setMapFromServer(map);
       setCollectablesFromServer(collectables);
+      console.log('player received : ', players);
+      setPlayersFromServer(players);
      });
    
      socket.current.on("connect_error", (err) => {
@@ -96,13 +99,20 @@ function App() {
 
  
  },[])
+ console.log('socket.current.id = ', socket.current.id);
+ console.log('playersFromServer = ', playersFromServer);
   return (
     <div className="App">
       <ConnectionState socket={ socket } isConnected={ isConnected } />
       <Events events={ fooEvents } />
       <ConnectionManager socket={ socket } />
       <MyForm socket={ socket } />
-      {mapFromServer && <Maze collectablesFromServer={ collectablesFromServer } mapFromServer={ mapFromServer } />}
+      {mapFromServer && playersFromServer.some(player => player.socketId === socket.current.id) && <Maze
+        collectablesFromServer={ collectablesFromServer }
+        mapFromServer={ mapFromServer }
+        playerFromServer={ playersFromServer.find(player => player.socketId === socket.current.id) }
+        otherPlayersFromServer={ playersFromServer.filter(player => player.socketId !== socket.current.id) }
+      />}
     </div>
   );
 }

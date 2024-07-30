@@ -7,14 +7,15 @@ import * as PLAYER from '../../utilities/player';
 import * as COLLECTABLE from '../../utilities/collectible'
 import OverHeadView from '../overHeadView'
 
-
-
-
-function Maze({ mapFromServer, collectablesFromServer }) {
+function Maze({ mapFromServer, collectablesFromServer, playerFromServer, otherPlayersFromServer }) {
+  console.log('maze otherPlayersFromServer = ', otherPlayersFromServer);
+  console.log('maze playerFromServer = ', playerFromServer);
+  console.log('maze mapFromServer = ', mapFromServer);
+  console.log('maze collectablesFromServer = ', collectablesFromServer);
   const scene = new THREE.Scene();
   const mazeGrid = MAP.getMazeGridObj(scene, mapFromServer);
 
-  const playerObj = PLAYER.getPlayerObj();
+  const playerObj = playerFromServer;
   const rendererRef = useRef();
 
   useEffect(() => {
@@ -24,8 +25,10 @@ function Maze({ mapFromServer, collectablesFromServer }) {
 
     rendererRef.current = new THREE.WebGLRenderer({ canvas: mazeCanvas });
     playerObj.camera = new THREE.PerspectiveCamera( 75, mazeCanvas.width/mazeCanvas.height, 0.1, 1000 );
-
-    const collectables = COLLECTABLE.createCollectiblesList(5, mazeGrid, collectablesFromServer);
+    playerObj.camera.position.x = playerObj.player.gridY;
+    playerObj.camera.position.y = 0;
+    playerObj.camera.position.z = playerObj.player.gridX;
+    const collectables = COLLECTABLE.createCollectiblesList(collectablesFromServer.length, mazeGrid, collectablesFromServer);
     COLLECTABLE.placeCollectableGraphics(scene, collectables);
 
     window.addEventListener("keydown", function(evt) { PLAYER.doKeyDown(evt, playerObj) }, false);

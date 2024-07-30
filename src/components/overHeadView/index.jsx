@@ -3,7 +3,7 @@ import * as MAP from '../../utilities/map';
 
 const OverHeadView = props => {
     const {  playerObj, mazeGrid, collectables } = props;
-    const { player : { gridX, gridY, direction }} = playerObj;
+    const { player : { gridX = 0, gridY = 0, direction = 100 }} = playerObj;
     return (
         <>
             <div style={{paddingLeft: "200px"}}>PLAYER POSITION ({`${gridX}, ${gridY}`})</div>

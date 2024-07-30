@@ -109,4 +109,8 @@ const createMazeGridPims = (width, height) => {
        } while ((wallList.length > 0));
        return mazeGrid;
    }
-   module.exports = createMazeGridPims;
+   module.exports.createMazeGridPims = createMazeGridPims;
+   module.exports.NORTH = NORTH;
+   module.exports.SOUTH = SOUTH;
+   module.exports.EAST = EAST;
+   module.exports.WEST = WEST;
