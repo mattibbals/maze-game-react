@@ -1,5 +1,6 @@
 import * as MAP from '../../utilities/map';
-import * as COLLECTABLE from '../../utilities/collectible'
+import * as COLLECTABLE from '../../utilities/collectible';
+import * as THREE from "three";
 
 export const WAITING = 1;
 export const TURNING_RIGHT = 2;
@@ -21,6 +22,24 @@ export const MOVING_FORWARD = 4;
         playerInput: {right:0,left:0,up:0,down:0}
     };
 } */
+
+
+export const placeOtherPlayerGraphics = (scene, players) => {
+   const playerGeometry = new THREE.BoxGeometry( 0.20, 0.25, 0.30 );
+   const playerMaterial = new THREE.MeshStandardMaterial( {color: 0xCCCCCAA} );
+
+   var playerList = players;
+
+   for(var i=0; i < playerList.length; i++){
+      playerList[i].obj = new THREE.Mesh(playerGeometry, playerMaterial);
+  }
+  playerList.forEach(player => {
+      const { obj : playerObject } = player;
+      playerObject.position.z = player.player.gridX;
+      playerObject.position.x = player.player.gridY;
+      scene.add(playerObject);
+   });
+}
 
 export const doKeyDown = (event, playerObj) => {
     let keynum;

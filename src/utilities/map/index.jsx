@@ -141,7 +141,7 @@ export const createMazeGridPims = (width, height) => {
       return mazeGrid;
   }
  */
-export const displayMazeGrid = (mazeGrid, playerObj, collectables) => {
+export const displayMazeGrid = (mazeGrid, playerObj, collectables, otherPlayers) => {
    const { player : {gridX, gridY, direction} } = playerObj;
    const getCellContent = (rowIdx, cellIdx) => {
       let cellContent;
@@ -166,6 +166,26 @@ export const displayMazeGrid = (mazeGrid, playerObj, collectables) => {
          collectables.forEach(collectable => {
             if ((collectable.x === rowIdx)&&(collectable.y === cellIdx)) {
                cellContent = '\u25A0';
+            }
+         });
+         otherPlayers.forEach(player => {
+            if ((player.player.gridX === rowIdx)&&(player.player.gridY === cellIdx)) {
+               switch(player.player.direction) {
+                  case NORTH :
+                     cellContent = '\u25B4';
+                     break;
+                  case SOUTH :
+                     cellContent = '\u25BE';
+                     break;
+                  case EAST :
+                     cellContent = '\u25B8';
+                     break;
+                  case WEST :
+                     cellContent = '\u25C3';
+                     break;
+                  default :
+                     break;
+               }
             }
          });
       }

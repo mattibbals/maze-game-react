@@ -31,6 +31,8 @@ function Maze({ mapFromServer, collectablesFromServer, playerFromServer, otherPl
     const collectables = COLLECTABLE.createCollectiblesList(collectablesFromServer.length, mazeGrid, collectablesFromServer);
     COLLECTABLE.placeCollectableGraphics(scene, collectables);
 
+    PLAYER.placeOtherPlayerGraphics(scene, otherPlayersFromServer);
+
     window.addEventListener("keydown", function(evt) { PLAYER.doKeyDown(evt, playerObj) }, false);
     window.addEventListener("keyup", function(evt) { PLAYER.doKeyUp(evt, playerObj) }, false);
 
@@ -75,7 +77,7 @@ function Maze({ mapFromServer, collectablesFromServer, playerFromServer, otherPl
   //    overHeadView.innerHTML = <OverHeadView mazeGrid={mazeGrid} playerObj={playerObj} />;
 
       ReactDOM.render(
-        <OverHeadView mazeGrid={mazeGrid} playerObj={playerObj} collectables={collectables} />,
+        <OverHeadView mazeGrid={mazeGrid} playerObj={playerObj} collectables={collectables} otherPlayers={otherPlayersFromServer} />,
         overHeadView
       )
 
